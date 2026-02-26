@@ -59,7 +59,7 @@
       </address>
     </author>
 
-    <date day="21" month="February" year="2026"/>
+    <date day="26" month="February" year="2026"/>
 
     <area>Operations and Management</area>
 
@@ -1334,7 +1334,8 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
         <li>Arrcus Arcos <xref
 				target="YANG_Push_Publisher">YANG-Push Publisher</xref>
 				implementation supporting, <xref
-				target="I-D.ietf-netconf-udp-notif"/> and <xref
+				target="I-D.ietf-netconf-udp-notif"/>, <xref
+				target="I-D.ietf-netconf-yp-transport-capabilities"/> and <xref
         target="I-D.ietf-netconf-notif-envelope"/>.</li>
 
         <li>NetGauze Network Telemetry data collection <xref
