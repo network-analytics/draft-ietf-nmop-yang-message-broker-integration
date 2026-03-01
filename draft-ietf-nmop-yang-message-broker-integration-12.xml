@@ -276,6 +276,11 @@
 						Message Broker Producers and Consumers. See <xref
 				    target="YANG_Schema_Registry"/>.</t>
 
+            <t>YANG Schema ID: A unique ID referencing the schema tree
+  					for a subject in schema registry. It is used by the YANG
+  					Message Broker Producer To serialize and the YANG Message
+  					Broker Consumer to deserialize the message.</t>
+
             <t>YANG Message Broker Producer: Serializes YANG telemetry
 						messages from previously retrieved YANG notifications From
 						YANG-Push Receiver and registers YANG schemas at YANG 
@@ -362,7 +367,7 @@
       +------------------------------------------------------------+
             |  ^                                   ^ 
    (10) Get |  |                                   | (9) Validate
-     Schema |  |                                   | Serialized Message
+YANG Schema |  |                                   | Serialized Message
             |  |                                   | Schema on Consumer
             |  |                              +--------------------+
             |  |                              |      Message       |
@@ -371,18 +376,18 @@
             |  |                                   ^
             |  |                                   | (8) Serialize
             |  |                                   | YANG-Push Message
-            |  |                                   | annotated Schema ID
-            |  |                                   | on Producer
-            |  |                                   |
+            |  |                                   | annotated YANG
+            |  |                                   | Schema ID on
+            |  |                                   | Producer
             |  |                                   |
             |  | (11) Issue                   +--------------------+
-            |  |      Schema                  |    YANG Message    |
-            v  |                  (6) Post    |   Broker Producer  |
+            |  |      Schema      (6) Post    |    YANG Message    |
+            v  |                      YANG    |   Broker Producer  |
       +--------------------+          Schema  +--------------------+
       |       YANG         | <--------------- |  Data Collection   |
       |  Schema Registry   | ---------------> | YANG-Push Receiver |
       +--------------------+  (7) Issue       +--------------------+
-            |                     Schema ID        |  ^ (3) Receive
+            |                     YANG Schema ID   |  ^ (3) Receive
             |                                      |  | YANG-Push
             v                         (4) Discover |  | Subscription
       +--------------------+                Schema |  | Start Message
@@ -720,9 +725,9 @@
         <t>The schema registry SHOULD support YANG as the format for
 				defining schema and has the ability to store metadata along with
 				the schema. For each schema registered into the schema registry,
-				a schema ID is returned. That schema ID can be used when
-				interacting with the Message Broker to indicate the schema to
-				use with the message.</t>
+				a YANG Schema ID is returned. That YANG Schema ID can be used
+				when interacting with the Message Broker to indicate the schema
+				to use with the message.</t>
 
         <t>Confluent Schema Registry is pluggable. Currently Supports
 				AVRO, JSON Schema and Protobuf. The YANG support is being
@@ -732,8 +737,8 @@
 				augmentations is being registered per YANG-Push subscription ID
 				along with metadata describing which YANG features were enabled
 				for the registered YANG schema. For each YANG Schema a locally
-				significant Schema ID is being issued as described in step (7)
-				in the workflow diagram.</t>
+				significant YANG Schema ID is being issued as described in
+				step (7) in the workflow diagram.</t>
 
         <figure anchor="YSR_post_ietf-interfaces"
                 title="Register ietf-interfaces.yang into YANG Schema Registry">
@@ -816,10 +821,11 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
 
       <section anchor="YANG_Message_Broker_Producer"
                title="YANG Message Broker Producer">
-        <t>The previously issued Schema ID is prefixed to the metadata
-				augmented YANG push push-update message previously described in 
-				<xref target="YANG_Push_Receiver"/> before serialized to a
-				Message Broker topic in step (8) of the workflow diagram.</t>
+        <t>The previously issued YANG Schema ID is prefixed to the
+				metadata augmented YANG push push-update message previously
+				described in <xref target="YANG_Push_Receiver"/> before
+				serialized to a Message Broker topic in step (8) of the workflow
+				diagram.</t>
 
         <t><xref section="2" sectionFormat="of"
         target="I-D.ietf-nmop-message-broker-telemetry-message"/> 
@@ -830,8 +836,8 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
       <section anchor="YANG_Message_Broker_Consumer"
                title="YANG Message Broker Consumer">
         <t>From the Message Broker topic the message is being consumed
-				and the prefixed Schema ID is being used in step (10) of the
-				workflow diagram to retrieve the YANG Schema to validate the
+				and the prefixed YANG Schema ID is being used in step (10) of
+				the workflow diagram to retrieve the YANG Schema to validate the
 				Schema integrity of the message.</t>
 
         <t>In order to validate Schema integrity, the event stream
@@ -848,9 +854,9 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
       <section anchor="YANG_Data_Consumer" title="YANG Data Consumer">
         <t>The data storage ingestion specifications are being derived
 				with the in <xref target="YANG_Message_Broker_Consumer"/>
-				already retrieved Schema ID and YANG-Push push-update messages
-				can be now ingested and indexed into the data storage table
-				according to their schema in step (12).</t>
+				already retrieved YANG Schema ID and YANG-Push push-update
+				messages can be now ingested and indexed into the data storage
+				table according to their schema in step (12).</t>
 
         <t>By tracking the YANG-Push notification sequence-number for a
 				given hostname as defined in <xref section="3.4"
