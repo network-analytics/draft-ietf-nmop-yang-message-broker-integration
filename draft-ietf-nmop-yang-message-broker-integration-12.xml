@@ -997,7 +997,7 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
 			and valuable comments. Alex Huang Feng, Jean Quilbeuf and Huoyao
 			Lin for review and contributing code and providing examples and
 			inputs to the open points. Heng Cui for providing security
-			consideration guidance.</t>
+			and operational consideration guidance.</t>
     </section>
   </middle>
 

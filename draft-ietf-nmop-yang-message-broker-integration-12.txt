@@ -1122,7 +1122,8 @@ Graf & Elhassany         Expires 6 November 2026               [Page 20]
 Internet-Draft   YANG-Push to Message Broker Integration        May 2026
 
 
-   points.  Heng Cui for providing security consideration guidance.
+   points.  Heng Cui for providing security and operational
+   consideration guidance.
 
 9.  References
 
@@ -1167,7 +1168,6 @@ Internet-Draft   YANG-Push to Message Broker Integration        May 2026
               message-04, 18 January 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-nmop-
               message-broker-telemetry-message-04>.
-
 
 
 
