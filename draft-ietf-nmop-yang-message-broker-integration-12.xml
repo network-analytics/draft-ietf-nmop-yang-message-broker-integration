@@ -11,7 +11,7 @@
 <?rfc compact="yes"?>
 <?rfc subcompact="no"?>
 <rfc category="info"
-     docName="draft-ietf-nmop-yang-message-broker-integration-11"
+     docName="draft-ietf-nmop-yang-message-broker-integration-12"
      ipr="trust200902">
   <front>
     <title abbrev="YANG-Push to Message Broker Integration">An
@@ -59,7 +59,7 @@
       </address>
     </author>
 
-    <date day="01" month="March" year="2026"/>
+    <date day="05" month="May" year="2026"/>
 
     <area>Operations and Management</area>
 
@@ -868,7 +868,7 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
 				publisher and YANG Data Consumer can be measured.</t>
     
         <t>The loss rate and delay for a given hostname can be used as a
-        Service Level Indicator for the YANG data product in the <xref
+        Service Level Indicator for the YANG Data Product in the <xref
         target="Deh22">Data Mesh</xref>.</t>
       </section>
 
@@ -943,7 +943,50 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
     </section>
 
     <section anchor="Security" title="Security Considerations">
-      <t>TBD</t>
+      <t>In line with <xref section="4.1.3" sectionFormat="of"
+			target="RFC3552"/>, the NETCONF SSH transport session between
+      YANG-Push Receiver and Publisher SHOULD be authenticated with
+			publickey	as defined in <xref section="7" sectionFormat="of"
+			target="RFC4252"/>. In order to discover the YANG-Push
+			Subscription capabilities, the YANG module dependecies, 
+			the YANG modules and the Susbcription state, read-only permission
+			should be assigned to this user through centralized <xref
+			section="6" sectionFormat="of" target="RFC3552">Tacacs+
+			Authorization</xref> or through <xref target="RFC8341">NACM</xref>
+			locally. Tacacs+ authorization should be secured with TLS 1.3 as
+			described in <xref target="RFC8341"/>. Depending on NACM
+			permissions, only the subscribe able YANG nodes are discoverable
+			by the NETCONF, RESTCONF client.</t>
+			
+			<t>In line with <xref section="4.5.2" sectionFormat="of"
+			target="RFC3552"/>, the YANG-Push transport session SHOULD be
+			secured with <xref target="RFC9147">DTLS 1.3</xref>, <xref
+			target="RFC8446">TLS 1.3</xref> or <xref
+			target="RFC4252">SSH</xref> depending on transport protocol and
+			Subscription type. The HTTPS and TCP transport sessions among
+			YANG Message Broker Producers, Consumers and YANG Schema Registry,
+			SHOULD be secured with <xref target="RFC8446">TLS 1.3</xref>. Keys
+			depending on key length should be frequently rotated.</t>
+    </section>
+
+    <section anchor="Operations" title="Operational Considerations">
+      <t>The Data Product should be monitored for YANG schema
+			integrity, YANG notification end-to-end delay and loss from
+			YANG-Push Subscription to YANG Data Consumer. The YANG instance
+			data can be validated at the YANG-Push Receiver or YANG Message
+			Broker Consumer or both. Notifications or messages not complying
+			to YANG schema SHOULD be logged with the YANG schema error and
+			the instance data together for troubleshooting purposes to the
+			data owner defined in the Stream Catalog. YANG notification delay
+			and loss can be measured at the YANG-Push Receiver and the YANG
+			Message Broker Consumer by taking the <xref
+			target="I-D.ietf-netconf-notif-envelope"/> defined event-time,
+			hostname and sequence-number and the <xref
+      target="I-D.ietf-nmop-message-broker-telemetry-message"/> defined
+			data-collection-manifest and collection-timestamp into context.
+			The service level objective SHOULD be defined by the Data Product
+			owner in the Stream Catalog and be notified and report when
+			violated.</t>
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
@@ -953,7 +996,8 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
       Martinez-Casanueva, Paul Aitken and Reshad Rahman for their review
 			and valuable comments. Alex Huang Feng, Jean Quilbeuf and Huoyao
 			Lin for review and contributing code and providing examples and
-			inputs to the open points.</t>
+			inputs to the open points. Heng Cui for providing security
+			consideration guidance.</t>
     </section>
   </middle>
 
@@ -961,11 +1005,19 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
     <references title="Normative References">
       <?rfc include='reference.RFC.2119'?>
 
+      <?rfc include='reference.RFC.3552'?>
+
+      <?rfc include='reference.RFC.4252'?>
+
       <?rfc include='reference.RFC.6022'?>
 
       <?rfc include='reference.RFC.7950'?>
 
       <?rfc include='reference.RFC.8174'?>
+
+      <?rfc include='reference.RFC.8341'?>
+
+      <?rfc include='reference.RFC.8446'?>
 
       <?rfc include='reference.RFC.8639'?>
 
@@ -973,9 +1025,13 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
 
       <?rfc include='reference.RFC.8792'?>
 
+      <?rfc include='reference.RFC.9147'?>
+
       <?rfc include='reference.RFC.9196'?>
 
       <?rfc include='reference.RFC.9254'?>
+
+      <?rfc include='reference.RFC.9887'?>
 
       <?rfc include='reference.I-D.ietf-nmop-message-broker-telemetry-message'?> 
       
