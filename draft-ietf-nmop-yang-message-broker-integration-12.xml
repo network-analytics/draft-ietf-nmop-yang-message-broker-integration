@@ -59,7 +59,7 @@
       </address>
     </author>
 
-    <date day="05" month="May" year="2026"/>
+    <date day="09" month="May" year="2026"/>
 
     <area>Operations and Management</area>
 
@@ -258,7 +258,8 @@
         <t><list style="symbols">
             <t>Data Product: A logical unit that contains all components
 						to publish, process and store domain data for analytical or
-            data-intensive use cases.</t>
+            data-intensive use cases and is attributed to one single
+						data owner.</t>
 
             <t>Service Level Objective: Is a target value or range of
 						values for a service level that is measured by an service
@@ -953,10 +954,10 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
 			should be assigned to this user through centralized <xref
 			section="6" sectionFormat="of" target="RFC3552">Tacacs+
 			Authorization</xref> or through <xref target="RFC8341">NACM</xref>
-			locally. Tacacs+ authorization should be secured with TLS 1.3 as
+			locally. Tacacs+ authorization MUST be secured with TLS 1.3 as
 			described in <xref target="RFC8341"/>. Depending on NACM
-			permissions, only the subscribe able YANG nodes are discoverable
-			by the NETCONF, RESTCONF client.</t>
+			permissions, only authorized YANG nodes are discoverable and
+			subscribable by NETCONF and RESTCONF clients.</t>
 			
 			<t>In line with <xref section="4.5.2" sectionFormat="of"
 			target="RFC3552"/>, the YANG-Push transport session SHOULD be
@@ -965,7 +966,7 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
 			target="RFC4252">SSH</xref> depending on transport protocol and
 			Subscription type. The HTTPS and TCP transport sessions among
 			YANG Message Broker Producers, Consumers and YANG Schema Registry,
-			SHOULD be secured with <xref target="RFC8446">TLS 1.3</xref>. Keys
+			MUST be secured with <xref target="RFC8446">TLS 1.3</xref>. Keys
 			depending on key length should be frequently rotated.</t>
     </section>
 
@@ -975,18 +976,18 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
 			YANG-Push Subscription to YANG Data Consumer. The YANG instance
 			data can be validated at the YANG-Push Receiver or YANG Message
 			Broker Consumer or both. Notifications or messages not complying
-			to YANG schema SHOULD be logged with the YANG schema error and
-			the instance data together for troubleshooting purposes to the
-			data owner defined in the Stream Catalog. YANG notification delay
-			and loss can be measured at the YANG-Push Receiver and the YANG
-			Message Broker Consumer by taking the <xref
+			to YANG schema SHOULD be logged describing the YANG schema error
+			with the instance data together for troubleshooting purposes to
+			the data owner defined in the Stream Catalog. YANG notification
+			delay and loss can be measured at the YANG-Push Receiver and the
+			YANG Message Broker Consumer by taking the <xref
 			target="I-D.ietf-netconf-notif-envelope"/> defined event-time,
 			hostname and sequence-number and the <xref
       target="I-D.ietf-nmop-message-broker-telemetry-message"/> defined
 			data-collection-manifest and collection-timestamp into context.
-			The service level objective SHOULD be defined by the Data Product
-			owner in the Stream Catalog and be notified and report when
-			violated.</t>
+			The Service Level Objective SHOULD be defined by the Data
+			Product owner in the Stream Catalog and be notified and reported
+			when violated.</t>
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
@@ -994,7 +995,7 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
       Mohamed Boucadair, Dhruv Dhody, Qin Wu, Andy Bierman, Feng Chong,
       Holger Keller, Kristian Larsson, Ignacio Dominguez
       Martinez-Casanueva, Paul Aitken and Reshad Rahman for their review
-			and valuable comments. Alex Huang Feng, Jean Quilbeuf and Huoyao
+			and valuable comments. Alex Huang Feng, Jean Quilbeuf and Zhuoyao
 			Lin for review and contributing code and providing examples and
 			inputs to the open points. Heng Cui for providing security
 			and operational consideration guidance.</t>
