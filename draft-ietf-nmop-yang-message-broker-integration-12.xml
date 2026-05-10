@@ -59,7 +59,7 @@
       </address>
     </author>
 
-    <date day="09" month="May" year="2026"/>
+    <date day="10" month="May" year="2026"/>
 
     <area>Operations and Management</area>
 
@@ -190,16 +190,50 @@
       <section anchor="Terminology" title="Terminology">
         <t>This document defines the following terms:</t>
 
-        <t>Message Broker: is an intermediary software component that
-        translates messages from the formal messaging protocol of the
-				sender to the formal messaging protocol of the receiver routed
-				in topics <xref target="Kaf11"/>. Message brokers are elements
-				in Data Mesh where software applications communicate by
-				exchanging formally-defined messages.</t>
+        <t><list style="symbols">
+            <t>Message Broker: is an intermediary software component
+						that translates messages from the formal messaging protocol
+						of the sender to the formal messaging protocol of the
+						receiver routed in topics <xref target="Kaf11"/>. Message
+						brokers are elements in Data Mesh where software
+						applications communicate by exchanging formally-defined
+						messages.</t>
 
-        <t>Stream Catalog: provides a single point of access that allows
-				users to centrally search semantics for information across a
-				Message Broker.</t>
+            <t>YANG Message Broker Producer: Serializes YANG telemetry
+						messages from previously retrieved YANG notifications From
+						YANG-Push Receiver and registers YANG schemas at YANG 
+						Schema Registry for the serialized telemetry messages. See
+						<xref target="YANG_Message_Broker_Producer"/>.</t>
+
+            <t>YANG Message Broker Consumer: De-Serializes YANG
+						telemetry messages from Message Broker and retrieve
+						YANG schemas for the serialized telemetry messages from YANG
+						Schema Registry. See <xref
+						target="YANG_Message_Broker_Consumer"/>.</t>
+ 
+            <t>YANG Schema Registry: Stores YANG schemas and has an
+						API for registering and retrieving YANG schemas for YANG
+						Message Broker Producers and Consumers. See <xref
+				    target="YANG_Schema_Registry"/>.</t>
+
+            <t>YANG Schema ID: A unique ID referencing the schema tree
+  					for a subject in schema registry. It is used by the YANG
+  					Message Broker Producer To serialize and the YANG Message
+  					Broker Consumer to deserialize the message.</t>
+			
+            <t>YANG Data Consumer: Transforms and ingests previously
+						obtained YANG notfications from Message Broker into YANG
+						Data Storage by leveraging YANG schemas from YANG Schema
+						Registry. See <xref target="YANG_Data_Consumer"/>.</t>
+
+            <t>YANG Data Storage: Stores and indexes YANG data retrieved
+						through YANG notifications. See <xref
+						target="YANG_Data_Storage"/>.</t>						
+
+            <t>Stream Catalog: provides a single point of access that
+						allows users to centrally search semantics for information
+						across a Message Broker.</t>
+          </list></t>
 
         <t>Additionally it makes use of the terms defined in <xref
         target="RFC8639"/>, <xref target="RFC7950"/>, <xref 
@@ -267,41 +301,6 @@
 
             <t>Service Level Indicator: Is a measure of a service level
 						provided by a service provider to a customer.</t>
-          </list></t>
-
-        <t>This document defines the following terms:</t>
-
-        <t><list style="symbols">
-            <t>YANG Schema Registry: Stores YANG schemas and has an
-						API for registering and retrieving YANG schemas for YANG
-						Message Broker Producers and Consumers. See <xref
-				    target="YANG_Schema_Registry"/>.</t>
-
-            <t>YANG Schema ID: A unique ID referencing the schema tree
-  					for a subject in schema registry. It is used by the YANG
-  					Message Broker Producer To serialize and the YANG Message
-  					Broker Consumer to deserialize the message.</t>
-
-            <t>YANG Message Broker Producer: Serializes YANG telemetry
-						messages from previously retrieved YANG notifications From
-						YANG-Push Receiver and registers YANG schemas at YANG 
-						Schema Registry for the serialized telemetry messages. See
-						<xref target="YANG_Message_Broker_Producer"/>.</t>
-
-            <t>YANG Message Broker Consumer: De-Serializes YANG
-						telemetry messages from Message Broker and retrieve
-						YANG schemas for the serialized telemetry messages from YANG
-						Schema Registry. See <xref
-						target="YANG_Message_Broker_Consumer"/>.</t>
-						
-            <t>YANG Data Consumer: Transforms and ingests previously
-						obtained YANG notfications from Message Broker into YANG
-						Data Storage by leveraging YANG schemas from YANG Schema
-						Registry. See <xref target="YANG_Data_Consumer"/>.</t>
-
-            <t>YANG Data Storage: Stores and indexes YANG data retrieved
-						through YANG notifications. See <xref
-						target="YANG_Data_Storage"/>.</t>						
           </list></t>
       </section>
     </section>
@@ -836,10 +835,9 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
 
       <section anchor="YANG_Message_Broker_Consumer"
                title="YANG Message Broker Consumer">
-        <t>From the Message Broker topic the message is being consumed
-				and the prefixed YANG Schema ID is being used in step (10) of
-				the workflow diagram to retrieve the YANG Schema to validate the
-				Schema integrity of the message.</t>
+        <t>The Schema ID is extracted from the metadata and used to
+				retrieve the YANG Schema, step (10) of the workflow diagram, to
+				validate the Schema integrity of the message.</t>
 
         <t>In order to validate Schema integrity, the event stream
 				filter of the Subscription ID in the subscription started 
@@ -853,11 +851,10 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
       </section>
 
       <section anchor="YANG_Data_Consumer" title="YANG Data Consumer">
-        <t>The data storage ingestion specifications are being derived
-				with the in <xref target="YANG_Message_Broker_Consumer"/>
-				already retrieved YANG Schema ID and YANG-Push push-update
-				messages can be now ingested and indexed into the data storage
-				table according to their schema in step (12).</t>
+        <t>The data storage ingestion specifications used for YANG-Push
+				message ingestion and indexing at step (12) are derived
+				from the YANG Schema previously retrieved 
+				at <xref target="YANG_Message_Broker_Consumer"/>.</t>
 
         <t>By tracking the YANG-Push notification sequence-number for a
 				given hostname as defined in <xref section="3.4"
@@ -881,6 +878,10 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
         target="I-D.ietf-netconf-notif-envelope"/>. A network operator
         is now able to query the previously subscribed YANG data.</t>
       </section>
+    </section>
+
+    <section anchor="IANA" title="IANA Considerations">
+      <t>This document has no IANA actions.</t>
     </section>
 
     <section anchor="Implementation" title="Implementation Status">
@@ -1030,8 +1031,6 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
 
       <?rfc include='reference.RFC.9196'?>
 
-      <?rfc include='reference.RFC.9254'?>
-
       <?rfc include='reference.RFC.9887'?>
 
       <?rfc include='reference.I-D.ietf-nmop-message-broker-telemetry-message'?> 
@@ -1062,13 +1061,7 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
 
       <?rfc include='reference.RFC.8525'?>
 
-      <?rfc include='reference.RFC.8526'?>
-
-      <?rfc include='reference.RFC.8528'?>
-
       <?rfc include='reference.RFC.8640'?>
-
-      <?rfc include='reference.RFC.9144'?>
 
       <?rfc include='reference.RFC.9232'?>
 
