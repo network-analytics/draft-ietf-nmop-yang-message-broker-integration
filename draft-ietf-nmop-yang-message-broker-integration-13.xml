@@ -11,7 +11,7 @@
 <?rfc compact="yes"?>
 <?rfc subcompact="no"?>
 <rfc category="info"
-     docName="draft-ietf-nmop-yang-message-broker-integration-12"
+     docName="draft-ietf-nmop-yang-message-broker-integration-13"
      ipr="trust200902">
   <front>
     <title abbrev="YANG-Push to Message Broker Integration">An
@@ -59,7 +59,7 @@
       </address>
     </author>
 
-    <date day="13" month="May" year="2026"/>
+    <date day="07" month="June" year="2026"/>
 
     <area>Operations and Management</area>
 
@@ -353,7 +353,7 @@
       target="workflow_diagram"/> gives an overview on the workflow.</t>
 
       <figure anchor="workflow_diagram" title="End to End Workflow">
-        <artwork align="center"><![CDATA[
+        <artwork type="ascii-art" align="center"><![CDATA[
       +------------------------------------------------------------+
       |                     YANG Data Storage                      |
       +------------------------------------------------------------+
@@ -736,9 +736,9 @@ YANG Schema |  |                                   | Serialized Message
 				target="YSR24"/> YANG Schemas. One YANG Schema with all its
 				augmentations is being registered per YANG-Push subscription ID
 				along with metadata describing which YANG features were enabled
-				for the registered YANG schema. For each YANG Schema a locally
-				significant YANG Schema ID is being issued as described in
-				step (7) in the workflow diagram.</t>
+				for the registered YANG schema and its YANG deviations. For each
+				YANG Schema a locally significant YANG Schema ID is being issued
+				as described in step (7) in the workflow diagram.</t>
 
         <figure anchor="YSR_post_ietf-interfaces"
                 title="Register ietf-interfaces.yang into YANG Schema Registry">
@@ -755,12 +755,13 @@ http://localhost:8081/subjects/ietf-interfaces/
   {
    "name": "ietf-interfaces",
    "subject": "ietf-interfaces",
-   "version": "2018-02-20",
+   "version": "2018-02-20"
   }
  ],
   "metadata": {
     "tags": {
-      "features": ["arbitrary-names", "if-mib"]
+      "features": ["arbitrary-names", "if-mib"],
+      "deviations": "huawei-ietf-interfaces-deviations-MA5800"
     }
   },
  "schema": "... yang schema text"
@@ -803,7 +804,8 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
  ],
   "metadata": {
     "tags": {
-      "features": ["arbitrary-names", "if-mib"]
+      "features": ["arbitrary-names", "if-mib"],
+      "deviations": "huawei-ietf-interfaces-deviations-MA5800"
     }
   },
 
@@ -950,7 +952,7 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
       YANG-Push Receiver and Publisher SHOULD be authenticated with
 			publickey	as defined in <xref section="7" sectionFormat="of"
 			target="RFC4252"/>. In order to discover the YANG-Push
-			Subscription capabilities, the YANG module dependecies, 
+			Subscription capabilities, the YANG module dependencies, 
 			the YANG modules and the Susbcription state, read-only permission
 			should be assigned to this user through centralized <xref
 			section="6" sectionFormat="of" target="RFC3552">Tacacs+
@@ -1039,6 +1041,8 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
 
       <?rfc include='reference.I-D.ietf-netconf-yang-notifications-versioning'?>
 
+      <?rfc include='reference.I-D.ietf-netconf-udp-notif'?>
+
       <?rfc include='reference.I-D.ietf-netconf-yp-transport-capabilities'?>
 
       <?rfc include='reference.I-D.ietf-netconf-yang-library-augmentedby'?>
@@ -1066,8 +1070,6 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
       <?rfc include='reference.RFC.9232'?>
 
       <?rfc include='reference.I-D.ietf-netconf-https-notif'?>
-
-      <?rfc include='reference.I-D.ietf-netconf-udp-notif'?>
 
       <?rfc include='reference.I-D.ietf-netconf-distributed-notif'?>
 
