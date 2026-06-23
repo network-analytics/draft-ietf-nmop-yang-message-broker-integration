@@ -59,7 +59,7 @@
       </address>
     </author>
 
-    <date day="07" month="June" year="2026"/>
+    <date day="22" month="June" year="2026"/>
 
     <area>Operations and Management</area>
 
@@ -738,7 +738,10 @@ YANG Schema |  |                                   | Serialized Message
 				along with metadata describing which YANG features were enabled
 				for the registered YANG schema and its YANG deviations. For each
 				YANG Schema a locally significant YANG Schema ID is being issued
-				as described in step (7) in the workflow diagram.</t>
+				as described in step (7) in the workflow diagram. YANG module
+				imports are being listed as references, regardless if the YANG
+				module is an augment or a deviation. YANG features are listed as
+				feature metadata.</t>
 
         <figure anchor="YSR_post_ietf-interfaces"
                 title="Register ietf-interfaces.yang into YANG Schema Registry">
@@ -760,8 +763,7 @@ http://localhost:8081/subjects/ietf-interfaces/
  ],
   "metadata": {
     "tags": {
-      "features": ["arbitrary-names", "if-mib"],
-      "deviations": "huawei-ietf-interfaces-deviations-MA5800"
+      "features": ["arbitrary-names", "if-mib"]
     }
   },
  "schema": "... yang schema text"
@@ -804,8 +806,7 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
  ],
   "metadata": {
     "tags": {
-      "features": ["arbitrary-names", "if-mib"],
-      "deviations": "huawei-ietf-interfaces-deviations-MA5800"
+      "features": ["arbitrary-names", "if-mib"]
     }
   },
 
@@ -991,6 +992,11 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
 			The Service Level Objective SHOULD be defined by the Data
 			Product owner in the Stream Catalog and be notified and reported
 			when violated.</t>
+
+      <t>A YANG-Push Receiver or a YANG Message Broker Consumer MAY
+			generate a YANG Library where YANG deviations are explicitely
+			listed. Therefore the YANG library between YANG-Push Receiver and
+			a YANG Message Broker Consumer MAY be identical or not.</t>
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
