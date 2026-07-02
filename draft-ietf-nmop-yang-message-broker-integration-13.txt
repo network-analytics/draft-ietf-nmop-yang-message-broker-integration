@@ -904,7 +904,7 @@ Internet-Draft   YANG-Push to Message Broker Integration       July 2026
    Key:
      router-nyc-01
      1042
-           /ietf-interfaces:interfaces/interface[name='eth0']
+     /ietf-interfaces:interfaces/interface[name='eth0']
 
    Headers:
      schema-id:     1
