@@ -836,13 +836,13 @@ curl http://localhost:8081/subjects/ietf-interfaces/versions/1
 				YANG-Push and different types of provenance metadata.</t>				
 				
         <t><xref
-				target="telemetry-message-broker-key-and header-example"/>
+				target="telemetry-message-broker-key-and-header-example"/>
 				represent the Message Key and and the Message Broker headers
 				with the Schema ID and contend type of the Message and
 				<xref target="telemetry-message-example"/> the Message itself.
 				</t>
 
-  <figure anchor="telemetry-message-broker-key-and header-example"
+  <figure anchor="telemetry-message-broker-key-and-header-example"
     title="Telemetry Message Broker Key and Header Example">
     <sourcecode type="text"><![CDATA[
 NOTE: The Key is a two-line byte string; the line break between the
